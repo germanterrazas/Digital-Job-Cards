@@ -1,0 +1,25 @@
+<!-- Author gt401 -->
+{% extends 'adminsys/base.html' %}
+
+{% block title %} List of Orders {% endblock %}
+
+{% block content %}
+   <h2 align="center">List of Orders</h2>
+   <TABLE cellpadding='10' border='0' width=900>
+        <TR bgcolor="#91c7ed">
+          <TD align='center' width="20"><B>Number</B></TD>
+          <TD align='center' width="300"><B>Customer</B></TD>
+          <TD align='center' width="200"><B>CPN</B></TD>
+          <TD align='center' width="100"><B>Date Issued</B></TD>
+        </TR>
+        {% for o in orders %}
+          <TR>
+            <TD align='center'><a href="../list_of_jobs/{{ o.orderid }}/">{{ o.description }}</a></TD>
+            <TD>Ocado Solutions USA Inc</TD>
+            <TD align='center'>{{ o.partnumber }}</TD>
+            <TD align='center'>{{ o.date }}</TD>
+          </TR>
+        {% endfor %}
+     </TABLE>
+
+{% endblock %}

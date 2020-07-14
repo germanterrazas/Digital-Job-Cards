@@ -1,0 +1,74 @@
+<!-- Author gt401 -->
+{% extends 'adminsys/base.html' %}
+
+{% block title %} Operation at Workstation {% endblock %}
+
+{% block content %}
+   <h2 align="center">Operation for {{oawr.operationModel.userdid}} at {{oawr.workstationModel.name}}</h2> 
+    <TABLE cellpadding='10' border='0' width=900>
+      <TR bgcolor="#91c7ed">
+        <TD align='center' width="50"><B>Number</B></TD>
+        <TD align='center' width="400"><B>Description</B></TD>
+        <TD align='center' width="150"><B>Location</B></TD>
+        <TD align='center' width="100"><B>Start</B></TD>
+        <TD align='center' width="100"><B>End</B></TD>
+      </TR>
+      <TR>
+        <TD align='center'>{{oawr.operationModel.number}}</TD>
+        <TD>{{oawr.operationModel.description}}</TD>
+        <TD align='center'>{{oawr.workstationModel.location}}</TD>
+        <TD align='center'>
+          {% if oawr.realisedByModel.start == None %}
+            {% if oawr.realisedByModel.end == None %}
+              <form action="../../../../start_operation/" method="post">
+            {% else %}
+              <form action="../start_operation/" method="post">
+            {% endif %}
+              {% csrf_token %}
+              <input type="hidden" name="opid" value="{{oawr.opid}}">
+              <input type="hidden" name="wid" value="{{oawr.wid}}">
+              <input type="hidden" name="jcid" value="{{oawr.jcid}}">
+              <input type="hidden" name="start" value="{{oawr.realisedByModel.start}}">
+              <input type="hidden" name="end" value="{{oawr.realisedByModel.end}}">
+             <!-- {{ hidden }} -->
+              <!-- {{oawr.aForm}} -->
+              <input type="submit" value="Start">
+            </form>
+          {% else %}
+            {{ oawr.realisedByModel.start }}
+          {% endif %}
+        </TD>
+        <TD align='center'>
+          {% if oawr.realisedByModel.end == None %}
+            {% if oawr.realisedByModel.start == None %}
+              <form action="../../../../end_operation/" method="post">
+            {% else %}
+              <form action="../end_operation/" method="post">
+            {% endif %}
+              {% csrf_token %}
+              <input type="hidden" name="opid" value="{{oawr.opid}}">
+              <input type="hidden" name="wid" value="{{oawr.wid}}">
+              <input type="hidden" name="jcid" value="{{oawr.jcid}}">
+              <input type="hidden" name="start" value="{{oawr.realisedByModel.start}}">
+              <input type="hidden" name="end" value="{{oawr.realisedByModel.end}}">
+            <!-- {{ hidden }} -->
+              <!-- {{oawr.aForm}} -->
+              <input type="submit" value="Stop">
+            </form>
+          {% else %}
+            {{ oawr.realisedByModel.end }}
+          {% endif %}
+        </TD>             
+        <!-- TD align='center'>{{oawr.realisedByModel.start}}</TD -->
+        <!-- TD align='center'>{{oawr.realisedByModel.end}}</TD -->
+      </TR>
+      <TR bgcolor="#91c7ed">
+        <TD colspan="5"align='left'><B>Notes:</B></TD>
+      </TR>
+      <TR>
+        <TD colspan="5" align='center'> 
+          <textarea id="{{oawr.realisedByModel.realisedbyid}}" rows="8" cols="100">{{oawr.operationModel.userdid.name}}: enter your notes taken during this job.</textarea>
+        </TD>
+      </TR>
+    </TABLE>
+{% endblock %}

@@ -1,0 +1,53 @@
+<!-- Author gt401 -->
+{% extends 'adminsys/base.html' %}
+
+{% block title %} List of job cards iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg== {% endblock %}
+
+{% block content %}
+
+   <h2 align='center'> Job Card {{ jobcardr.jobModel.barcode }}</h2>
+   <h2 align='center'><img align="center" height="80" width="80" src="data:image/png;base64,{{jobcardr.qrCode}}"></h2>
+   <HR>
+   <p><B>Description:</B> {{ jobcardr.jobModel.description }}</p>
+   <p><B>Date:</B> {{ jobcardr.jobModel.creationdate }}</p>
+   <p><B>Owner:</B> {{ jobcardr.jobModel.userid}}</p>
+   <hr>
+   <h2>Materials</h2>
+    <TABLE cellpadding='10' border='0' width=900>
+   	    <TR bgcolor="#b6c3cc">
+   	    	<TD align='center' width="100"><B>Code</B></TD>
+   	    	<TD align='center' width="400"><B>Description</B></TD>
+   	    	<TD align='center' width="100"><B>Quantity</B></TD>
+   	    	<TD align='center' width="100"><B>UOM</B></TD>
+   	    	<TD align='center' width="100"><B>Location</B></TD>
+   	    </TR>
+  	    </TR>
+        {% for use in jobcardr.uses %}
+        <TR>
+        	<TD>{{use.stockid.code }}</TD>
+        	<TD>{{use.stockid.description}}</TD>
+        	<TD align='right'>{{use.quantity }}</TD>
+        	<TD align='center'>{{use.stockid.uom}}</TD>
+        	<TD align='left'>{{use.stockid.location}}</TD>
+        </TR>
+        {% endfor %}
+   	</TABLE>
+  
+   <hr>
+   <h2> Operations </h2>
+   <TABLE cellpadding='10' border='0'>
+   	    <TR bgcolor="#91c7ed">
+   	    	<TD align='center' width="50"><B>Number</B></TD>
+   	    	<TD align='center' width="400"><B>Description</B></TD>
+   	    	<TD align='center' width="150"><B>Assigned to</B></TD>
+   	    	<TD align='center' width="200"><B>Workstation</B></TD>
+   	    </TR>
+        {% for ops in jobcardr.operations %}
+     	    <TR><TD align='center'><a href="../../operation_at_workstation/{{ops.operationModel.operationid}}/{{ops.workstation.wsid}}/{{jobcardr.jobModel.jobcardid}}">{{ ops.operationModel.number}}</a></TD>
+     	    	<TD>{{ ops.operationModel.description}}</TD>
+     	    	<TD>{{ ops.operationModel.userdid}}</TD>
+     	    	<TD>{{ ops.workstation.name}}</TD>
+     	    </TR>
+        {% endfor %}
+     </TABLE>
+{% endblock %}

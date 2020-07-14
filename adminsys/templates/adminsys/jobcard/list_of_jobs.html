@@ -1,0 +1,32 @@
+<!-- Author gt401 -->
+{% extends 'adminsys/base.html' %}
+
+{% block title %} List of jobs {% endblock %}
+
+{% block content %}
+   <h2 align="center">Jobs for {{ jobs.orderModel.description }} </h2>
+   <HR>
+   {% for job in jobs.jobModels %}
+       <p><B>Description:</B> {{ job.description }}</p>
+       <p><B>Date:</B> {{ job.creationdate }}</p>
+       <p><B>Creator:</B> {{ job.userid }}</p>
+       <TABLE cellpadding='10' border='0' width=900>
+        <TR bgcolor="#91c7ed">
+          <TD align='center' width="20"><B>Number</B></TD>
+          <TD align='center' width="400"><B>Description</B></TD>
+          <TD align='center' width="100"><B>Creation</B></TD>
+          <TD align='center' width="100"><B>Status</B></TD>
+        </TR>
+        {% for jcs in jobs.jobCardModels %}
+          {% for jc in jcs %}
+          <TR>
+            <TD align='center'><a href="../../jobcard/{{ jc.jobcardid }}/">{{ jc.jobcardid }}</a></TD>
+            <TD>{{ jc.description }}</TD>
+            <TD align='center'>{{ jc.creationdate }}</TD>
+            <TD align='center'>ONGOING</TD>
+          </TR>
+          {% endfor %}
+        {% endfor %}
+     </TABLE>
+   {% endfor %}
+{% endblock %}
